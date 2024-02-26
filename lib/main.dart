@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:senior_project/modules/home/home_screen.dart';
 import 'package:senior_project/modules/login/login_screen.dart';
 
 void main() {
@@ -12,11 +13,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'KFUPM Tram',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         useMaterial3: true,
       ),
-      home: LoginScreen(),
+      home: HomeScreen(),
     );
   }
 }
