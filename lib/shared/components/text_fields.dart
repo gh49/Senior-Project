@@ -43,10 +43,13 @@ class G49TextFormField extends StatelessWidget {
       onChanged: onChanged,
       obscureText: obscureText,
       onTap: onTapped,
+      onSaved: onSaved,
       readOnly: readOnly,
       decoration: InputDecoration(
         labelText: labelText,
         hintText: hintText,
+        fillColor: Colors.white,
+        filled: true,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30.0),
         ),

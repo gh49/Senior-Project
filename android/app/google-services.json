@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "324573318375",
+    "project_id": "kfupm-tram",
+    "storage_bucket": "kfupm-tram.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:324573318375:android:d83c3e59970a82dc68a642",
+        "android_client_info": {
+          "package_name": "com.ghassan.senior_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAjhcRv8x4ARSS0Ymh5ro_y7F5HtvMndk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
