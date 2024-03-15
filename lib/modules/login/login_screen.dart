@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:senior_project/modules/home/home_screen.dart';
 import 'package:senior_project/modules/login/cubit.dart';
 import 'package:senior_project/shared/components/buttons.dart';
 import 'package:senior_project/shared/components/text_fields.dart';
 import 'package:senior_project/shared/components/themes.dart';
 import 'package:senior_project/shared/functions/input_checks.dart';
+import 'package:senior_project/shared/functions/navigation.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -23,7 +25,11 @@ class _LoginScreenState extends State<LoginScreen> {
     return BlocProvider(
       create: (context) => LoginCubit(),
       child: BlocConsumer<LoginCubit, LoginCEvent>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if(state is LoginCLoginSuccess) {
+            G49Nav.navigateAndFinish(context, const HomeScreen());
+          }
+        },
         builder: (context, state) {
           var cubit = LoginCubit.get(context);
           return Scaffold(

@@ -17,24 +17,15 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -52,11 +43,38 @@ class DefaultFirebaseOptions {
     }
   }
 
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyDmOdS8bLjbEoBJAlm52mSRGtdaZ9-WRQA',
+    appId: '1:324573318375:web:6268ffeb580edd0668a642',
+    messagingSenderId: '324573318375',
+    projectId: 'kfupm-tram',
+    authDomain: 'kfupm-tram.firebaseapp.com',
+    storageBucket: 'kfupm-tram.appspot.com',
+  );
+
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBAjhcRv8x4ARSS0Ymh5ro_y7F5HtvMndk',
     appId: '1:324573318375:android:d83c3e59970a82dc68a642',
     messagingSenderId: '324573318375',
     projectId: 'kfupm-tram',
     storageBucket: 'kfupm-tram.appspot.com',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyD4qii86uljEohctMR9u3sWJvTH9QT9OqM',
+    appId: '1:324573318375:ios:4cac6596bb8c8f8268a642',
+    messagingSenderId: '324573318375',
+    projectId: 'kfupm-tram',
+    storageBucket: 'kfupm-tram.appspot.com',
+    iosBundleId: 'com.ghassan.seniorProject',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyD4qii86uljEohctMR9u3sWJvTH9QT9OqM',
+    appId: '1:324573318375:ios:4b45ca31e21d3fc668a642',
+    messagingSenderId: '324573318375',
+    projectId: 'kfupm-tram',
+    storageBucket: 'kfupm-tram.appspot.com',
+    iosBundleId: 'com.ghassan.seniorProject.RunnerTests',
   );
 }

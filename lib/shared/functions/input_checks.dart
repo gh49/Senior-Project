@@ -14,6 +14,13 @@ class InputCheck {
     return true;
   }
 
+  static bool isNumber(String? value) {
+    if(value == null) {
+      return false;
+    }
+    return double.tryParse(value) != null;
+  }
+
   static bool isKfupmId(String? value) {
     if(value == null) {
       return false;
