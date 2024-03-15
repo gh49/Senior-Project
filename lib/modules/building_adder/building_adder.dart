@@ -1,3 +1,7 @@
+import 'dart:io';
+import 'dart:typed_data';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:senior_project/modules/building_adder/cubit.dart';
@@ -6,6 +10,7 @@ import 'package:senior_project/shared/components/buttons.dart';
 import 'package:senior_project/shared/components/text_fields.dart';
 import 'package:senior_project/shared/components/themes.dart';
 import 'package:senior_project/shared/functions/input_checks.dart';
+import 'package:senior_project/shared/networking/firebase_storage.dart';
 
 class BuildingAdderScreen extends StatefulWidget {
   const BuildingAdderScreen({super.key});
@@ -20,6 +25,7 @@ class _BuildingAdderScreenState extends State<BuildingAdderScreen> {
   String? name;
   double? latitude;
   double? longitude;
+  Uint8List? imageBytes;
 
   @override
   Widget build(BuildContext context) {
@@ -130,14 +136,52 @@ class _BuildingAdderScreenState extends State<BuildingAdderScreen> {
                       const SizedBox(
                         height: 26.0,
                       ),
+                      Row(
+
+                        children: [
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width / 4,
+                            height: 50,
+                            child: G49RoundButton(
+                              onPressed: () async {
+                                FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.image);
+
+                                if (result != null) {
+                                  imageBytes = result.files.single.bytes;
+                                } else {
+                                  print("File picking cancelled");
+                                }
+                                setState(() {
+
+                                });
+                              },
+                              buttonText: "Pick Image",
+                              backgroundColor: Colors.yellow.shade800,
+                              textColor: Colors.black,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 50,
+                          ),
+                          if(imageBytes == null)
+                            Text("Choose File"),
+                          if(imageBytes != null)
+                            Image.memory(imageBytes!, fit: BoxFit.fitHeight, height: 100.0),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 26.0,
+                      ),
                       if (state is! BuildingAdderLoading)
                         SizedBox(
                           width: MediaQuery.of(context).size.width,
                           height: 50,
                           child: G49RoundButton(
-                            onPressed: () {
-                              if (_formKey.currentState!.validate()) {
+                            onPressed: () async {
+                              if (_formKey.currentState!.validate() && imageBytes != null) {
                                 _formKey.currentState!.save();
+                                String s = await G49Storage.uploadBytes(imageBytes!, name!);
+                                print(s);
                               }
                             },
                             buttonText: "Add to Database",
