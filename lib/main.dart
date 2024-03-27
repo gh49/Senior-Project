@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:senior_project/modules/building_adder/building_adder.dart';
 import 'package:senior_project/modules/home/home_screen.dart';
 import 'package:senior_project/modules/login/login_screen.dart';
 import 'package:senior_project/modules/test/test_screen.dart';
@@ -28,7 +27,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         useMaterial3: true,
       ),
-      home: const BuildingAdderScreen(),
+      home: const LoginScreen(),
     );
   }
 }
