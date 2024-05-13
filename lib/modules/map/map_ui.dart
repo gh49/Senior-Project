@@ -1,12 +1,11 @@
 import 'dart:async';
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:senior_project/shared/functions/latlng_interpolater.dart';
 import 'package:senior_project/shared/networking/db.dart';
 import 'package:senior_project/shared/networking/google_directions.dart';
-
 import '../../models/models.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class MapSample extends StatefulWidget {
   const MapSample({super.key});
@@ -17,20 +16,36 @@ class MapSample extends StatefulWidget {
 
 class MapSampleState extends State<MapSample> with AutomaticKeepAliveClientMixin {
 
-  late Timer _timer;
+  late IO.Socket socket;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     addTram();
+    socketHandler();
   }
 
   @override
   void dispose() {
-    // Dispose the timer when the widget is disposed
-    _timer?.cancel();
+    // Dispose the socket when the widget is disposed
     super.dispose();
+    socket.dispose();
+  }
+
+  void socketHandler() {
+    print("trying to connect socket");
+    socket = IO.io('http://192.168.100.81:3000', <String, dynamic>{
+    'transports': ['websocket'],
+    'autoConnect': true,
+    });
+    //socket.connect();
+    socket.onConnect((_) {
+      print('connected to socket --------------- ');
+      socket.emit('msg', 'test');
+    });
+    socket.on('location', (data) => changeTramLocation(LatLng(data['latitude'], data['longitude'])));
+    socket.onDisconnect((_) => print('disconnect'));
   }
 
   @override
@@ -55,6 +70,7 @@ class MapSampleState extends State<MapSample> with AutomaticKeepAliveClientMixin
       position: location,
       infoWindow: InfoWindow(title: markerIdVal, snippet: '*'),
       zIndex: 10,
+
     );
 
     setState(() {
@@ -138,6 +154,8 @@ class MapSampleState extends State<MapSample> with AutomaticKeepAliveClientMixin
     }
   }
 
+  bool tramAdded = false;
+
   Future<void> addTram() async {
     tramIcon = await Directions.getCustomIcon("assets/tram.png");
     MarkerId markerId = const MarkerId("tram");
@@ -149,33 +167,24 @@ class MapSampleState extends State<MapSample> with AutomaticKeepAliveClientMixin
       zIndex: 10,
     );
     markers[markerId] = tramMarker;
-    changeTramLocation();
-    _timer = Timer.periodic(const Duration(seconds: 2), (timer) {
-      changeTramLocation();
-    });
+    tramAdded = true;
   }
 
-  void changeTramLocation() {
-    double latitude = tramMarker.position.latitude;
-    double longitude = tramMarker.position.longitude;
-    // latitude = stations[0].getLocation().latitude - 0.0002;
-    // longitude = stations[0].getLocation().longitude - 0.0002;
-    latitude -= 0.0000007;
-    longitude -= 0.000005;
+  void changeTramLocation(LatLng newLocation) {
+    LatLng oldLocation = tramMarker.position;
     MarkerId markerId = const MarkerId("tram");
     tramMarker = Marker(
       markerId: markerId,
       flat: true,
       anchor: const Offset(0.5, 0.5),
-      rotation: Directions.getRotation(tramMarker.position, LatLng(latitude, longitude)),
+      rotation: Directions.getRotation(oldLocation, newLocation),
       icon: tramIcon,
-      position: LatLng(latitude, longitude),
+      position: newLocation,
       infoWindow: const InfoWindow(title: "Tram"),
       zIndex: 10,
     );
     markers[markerId] = tramMarker;
     print("Tram Position: ${tramMarker.position.latitude}, ${tramMarker.position.longitude}");
-    print("Tram Anchor: ${tramMarker.anchor}");
     setState(() {
 
     });

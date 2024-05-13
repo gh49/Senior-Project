@@ -7,6 +7,34 @@ import 'package:http/http.dart' as http;
 
 class Directions {
 
+  static Future<void> sendLatLngArray(List<LatLng> latLngList) async {
+    final url = Uri.parse('http://192.168.100.81:3000/tram/path');
+    final List<Map<String, dynamic>> jsonList =
+    latLngList.map((latLng) => {
+      'latitude': latLng.latitude,
+      'longitude': latLng.longitude,
+    }).toList();
+
+    final body = {'points': jsonList};
+
+    final headers = <String, String>{
+      'Content-Type': 'application/json',
+    };
+
+    final response = await http.post(
+      url,
+      headers: headers,
+      body: jsonEncode(body),
+    );
+
+    if (response.statusCode == 200) {
+      print('Request successful');
+      print('Response: ${response.body}');
+    } else {
+      print('Request failed with status: ${response.statusCode}');
+    }
+  }
+
   static Future<BitmapDescriptor> getCustomIcon(String path) async {
     try{
       final ByteData byteData = await rootBundle.load(path);
