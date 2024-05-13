@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 class Directions {
 
   static Future<void> sendLatLngArray(List<LatLng> latLngList) async {
-    final url = Uri.parse('http://192.168.100.81:3000/tram/path');
+    final url = Uri.parse('http://localhost:3000/tram/path');
     final List<Map<String, dynamic>> jsonList =
     latLngList.map((latLng) => {
       'latitude': latLng.latitude,

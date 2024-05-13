@@ -35,7 +35,7 @@ class MapSampleState extends State<MapSample> with AutomaticKeepAliveClientMixin
 
   void socketHandler() {
     print("trying to connect socket");
-    socket = IO.io('http://192.168.100.81:3000', <String, dynamic>{
+    socket = IO.io('http://10.13.101.138:3000', <String, dynamic>{
     'transports': ['websocket'],
     'autoConnect': true,
     });
