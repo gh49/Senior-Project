@@ -28,19 +28,10 @@ class TestScreen extends StatelessWidget {
           children: [
             Column(
               children: [
-                Expanded(child: MapSample()),
+                //Expanded(child: MapSample()),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                height: 50.0,
-                child: G49TextFormField(
-                  prefixIcon: Icon(Icons.search),
-                  labelText: "Search Building",
-                ),
-              ),
-            ),
+
           ],
         ));
   }
