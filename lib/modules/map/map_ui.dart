@@ -27,6 +27,7 @@ class MapSampleState extends State<MapSample>
   void initState() {
     // TODO: implement initState
     super.initState();
+    _addMyLocation();
     widget.setDirFunction(addDirections);
     addTram();
     socketHandler();
@@ -94,6 +95,7 @@ class MapSampleState extends State<MapSample>
   void _addMarker(String markerIdVal, LatLng location,
       {BitmapDescriptor icon = BitmapDescriptor.defaultMarker,
       double alpha = 1.0,
+        double zIndex = 10,
       void Function()? onTap}) {
     final MarkerId markerId = MarkerId(markerIdVal);
 
@@ -104,7 +106,7 @@ class MapSampleState extends State<MapSample>
       position: location,
       infoWindow: InfoWindow(title: markerIdVal, snippet: '*'),
       alpha: alpha,
-      zIndex: 10,
+      zIndex: zIndex,
       onTap: onTap,
     );
 
@@ -197,9 +199,11 @@ class MapSampleState extends State<MapSample>
 
   Future<void> _addMyLocation() async {
     //Add stations to map
-    BitmapDescriptor stationIcon =
-        await Directions.getCustomIcon("assets/station_resized.png");
-    _addMarker("", const LatLng(26.314119, 50.143652), icon: stationIcon);
+    BitmapDescriptor myLocationIcon = await Directions.getCustomIcon("assets/my_location.png");
+    _addMarker("", const LatLng(26.314119, 50.143652), icon: myLocationIcon, zIndex: 20);
+    setState(() {
+
+    });
   }
 
   bool tramAdded = false;
